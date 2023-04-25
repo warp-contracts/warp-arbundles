@@ -1,0 +1,38 @@
+{
+  "name": "warp-arbundles",
+  "version": "1.0.0-beta.0",
+  "description": "",
+  "main": "build/node/cjs/index.js",
+  "module": "build/node/esm/index.js",
+  "browser": "build/web/esm/webIndex.js",
+  "types": "build/node/esm/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./build && concurrently \"tsc -p tsconfig.json && resolve-tspaths -p tsconfig.json && sh ./fix-pkg.sh node/esm module && yarn tsc-esm-fix --tsconfig tsconfig.json \" \"tsc -p cjs.tsconfig.json && resolve-tspaths -p cjs.tsconfig.json && sh ./fix-pkg.sh node/cjs commonjs \"  \"tsc -p web.tsconfig.json && resolve-tspaths -p web.tsconfig.json && sh ./fix-pkg.sh web/esm module && yarn tsc-esm-fix --tsconfig web.tsconfig.json \" && webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:webpack": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.16.0",
+    "concurrently": "^8.0.1",
+    "crypto-browserify": "^3.12.0",
+    "inspectpack": "^4.7.1",
+    "process": "^0.11.10",
+    "resolve-tspaths": "^0.8.13",
+    "stream-browserify": "^3.0.0",
+    "tsc-esm-fix": "^2.20.12",
+    "typescript": "^5.0.4",
+    "webpack": "^5.80.0",
+    "webpack-bundle-analyzer": "^4.8.0",
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "arweave": "^1.13.7",
+    "base64url": "^3.0.1",
+    "warp-isomorphic": "^1.0.4"
+  },
+  "resolutions": {
+    "bn.js": "^5.1.1"
+  }
+}

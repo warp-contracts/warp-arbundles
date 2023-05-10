@@ -14,7 +14,7 @@ export const indexToType: IndexToType = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   1: ArweaveSigner,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // 2: Curve25519,
   // // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // // @ts-expect-error

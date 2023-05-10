@@ -1,5 +1,5 @@
 import base64url from 'base64url';
-import { createHash } from 'crypto';
+// import { createHash } from 'crypto';
 import { sign } from './ar-data-bundle';
 import { BundleItem } from './BundleItem';
 import { SignatureConfig, SIG_CONFIG } from './constants';
@@ -8,12 +8,14 @@ import { byteArrayToLong } from './utils';
 import { getCryptoDriver } from '$/utils';
 import { indexToType, Signer } from './signing/index';
 import { getSignatureData } from './ar-data-base';
+import { Crypto } from 'warp-isomorphic';
+import { Buffer } from 'buffer';
 
 export const MAX_TAG_BYTES = 4096;
 export const MIN_BINARY_SIZE = 80;
 
 export class DataItem implements BundleItem {
-  private readonly binary: Buffer;
+  private binary: Buffer;
   private _id: Buffer;
 
   constructor(binary: Buffer) {
@@ -36,20 +38,25 @@ export class DataItem implements BundleItem {
     return DataItem.verify(this.binary);
   }
 
-  get id(): string {
-    return base64url.encode(this.rawId);
+  get id(): Promise<string> | string {
+    return (async () => {
+      return base64url.encode(await this.rawId);
+    })();
   }
 
-  set id(id: string) {
-    this._id = base64url.toBuffer(id);
+  set id(id: string | Promise<string>) {
+    this._id = base64url.toBuffer(id as string);
   }
 
-  get rawId(): Buffer {
-    return createHash('sha256').update(this.rawSignature).digest();
+  get rawId(): Promise<Buffer> | Buffer {
+    return (async () => {
+      return Buffer.from(await Crypto.subtle.digest('SHA-256', this.rawSignature));
+    })();
+    // return createHash('sha256').update(this.rawSignature).digest();
   }
 
-  set rawId(id: Buffer) {
-    this._id = id;
+  set rawId(id: Buffer | Promise<Buffer>) {
+    this._id = id as Buffer;
   }
 
   get rawSignature(): Buffer {

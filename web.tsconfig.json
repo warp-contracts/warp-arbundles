@@ -6,5 +6,5 @@
       "$/utils": ["webUtils.ts"]
     }
   },
-  "exclude": ["./src/nodeUtils.ts"]
+  "exclude": ["./src/nodeUtils.ts", "src/__tests__/**"]
 }

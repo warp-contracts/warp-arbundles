@@ -33,3 +33,5 @@ bundles/
 logs
 
 target
+build
+metafile.json

@@ -1,32 +1,34 @@
-import { createHash } from 'crypto';
+// import { createHash } from 'crypto';
 import { getCryptoDriver, concatBuffers, stringToBuffer } from '$/utils';
 
-export type DeepHashChunk = Uint8Array | AsyncIterable<Buffer> | DeepHashChunks;
+export type DeepHashChunk = Uint8Array | DeepHashChunks;
 export type DeepHashChunks = DeepHashChunk[];
 
 export async function deepHash(data: DeepHashChunk): Promise<Uint8Array> {
-  if (typeof data[Symbol.asyncIterator as keyof AsyncIterable<Buffer>] === 'function') {
-    const _data = data as AsyncIterable<Buffer>;
+  // if (typeof data[Symbol.asyncIterator as keyof AsyncIterable<Buffer>] === 'function') {
+  //   const _data = data as AsyncIterable<Buffer>;
 
-    const context = createHash('sha384');
+  //   const context = createHash('sha384');
 
-    let length = 0;
+  //   let length = 0;
 
-    for await (const chunk of _data) {
-      length += chunk.byteLength;
-      context.update(chunk);
-    }
+  //   for await (const chunk of _data) {
+  //     length += chunk.byteLength;
+  //     context.update(chunk);
+  //   }
 
-    const tag = concatBuffers([stringToBuffer('blob'), stringToBuffer(length.toString())]);
+  //   const tag = concatBuffers([stringToBuffer('blob'), stringToBuffer(length.toString())]);
 
-    const taggedHash = concatBuffers([await getCryptoDriver().hash(tag, 'SHA-384'), context.digest()]);
+  //   const taggedHash = concatBuffers([await getCryptoDriver().hash(tag, 'SHA-384'), context.digest()]);
 
-    return await getCryptoDriver().hash(taggedHash, 'SHA-384');
-  } else if (Array.isArray(data)) {
+  //   return await getCryptoDriver().hash(taggedHash, 'SHA-384');
+  // } else if (Array.isArray(data)) {
+  if (Array.isArray(data)) {
     const tag = concatBuffers([stringToBuffer('list'), stringToBuffer(data.length.toString())]);
 
     return await deepHashChunks(data, await getCryptoDriver().hash(tag, 'SHA-384'));
   }
+  // }
 
   const _data = data as Uint8Array;
 

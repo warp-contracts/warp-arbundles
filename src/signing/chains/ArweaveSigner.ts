@@ -1,14 +1,18 @@
-import Rsa4096Pss from '../keys/Rsa4096Pss';
 import type { JWKInterface } from '../../interface-jwk';
-import { jwkTopem } from 'arweave/node/lib/crypto/pem';
 import base64url from 'base64url';
 import { getCryptoDriver } from '$/utils';
+import { SIG_CONFIG } from '../../constants';
+import { Signer } from '../Signer';
 
-export default class ArweaveSigner extends Rsa4096Pss {
+export default class ArweaveSigner implements Signer {
+  readonly signatureType: number = 1;
+  readonly ownerLength: number = SIG_CONFIG[1].pubLength;
+  readonly signatureLength: number = SIG_CONFIG[1].sigLength;
   protected jwk: JWKInterface;
+  public pk: string;
 
   constructor(jwk: JWKInterface) {
-    super(jwkTopem(jwk), jwk.n);
+    this.pk = jwk.n;
     this.jwk = jwk;
   }
 

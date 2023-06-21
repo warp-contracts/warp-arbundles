@@ -43,6 +43,10 @@ export class AVSCTap {
     return buffer;
   }
 
+  public tagsExceedLimit(): boolean {
+    return this.pos > this.buf.length;
+  }
+
   protected writeLong(n: number): void {
     const buf = this.buf;
     let f, m;
@@ -191,6 +195,12 @@ export function serializeTags(tags: Tag[]): Buffer {
   const tap = new AVSCTap();
   tap.writeTags(tags);
   return tap.toBuffer();
+}
+
+export function tagsExceedLimit(tags: Tag[]): boolean {
+  const tap = new AVSCTap();
+  tap.writeTags(tags);
+  return tap.tagsExceedLimit();
 }
 
 export function deserializeTags(tagsBuffer: Buffer): Tag[] {

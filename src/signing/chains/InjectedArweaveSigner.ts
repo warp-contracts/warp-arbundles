@@ -1,11 +1,11 @@
 import Arweave from 'arweave';
 import base64url from 'base64url';
 import { SignatureConfig, SIG_CONFIG } from '../../constants';
-import { Signer } from '../Signer';
-import { Tag } from '../../tags';
 import { DataItem } from '../../DataItem';
+import { Tag } from '../../tags';
+import { Signer } from '../Signer';
 
-export default class InjectedArweaveSigner implements Signer {
+export class InjectedArweaveSigner implements Signer {
   public signer: any;
   public publicKey: Buffer;
   readonly ownerLength: number = SIG_CONFIG[SignatureConfig.ARWEAVE].pubLength;
@@ -41,7 +41,7 @@ export default class InjectedArweaveSigner implements Signer {
     return buf;
   }
 
-  async signDataItem(dataItem: string | Buffer, tags: Tag[]): Promise<DataItem> {
+  async signDataItem(data: string | Buffer, tags: Tag[]): Promise<DataItem> {
     if (!this.publicKey) {
       await this.setPublicKey();
     }
@@ -49,7 +49,7 @@ export default class InjectedArweaveSigner implements Signer {
     return new DataItem(
       Buffer.from(
         await this.signer.signDataItem({
-          dataItem,
+          data,
           tags,
         })
       )

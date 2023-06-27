@@ -1,6 +1,6 @@
 {
   "name": "warp-arbundles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Arbundles minimum version required for warp-contracts purposes.",
   "main": "build/node/cjs/index.js",
   "module": "build/node/esm/index.js",

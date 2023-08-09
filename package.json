@@ -30,7 +30,7 @@
     "arweave": "^1.13.7",
     "base64url": "^3.0.1",
     "buffer": "^6.0.3",
-    "warp-isomorphic": "^1.0.4"
+    "warp-isomorphic": "^1.0.7"
   },
   "resolutions": {
     "bn.js": "^5.1.1"
